@@ -6,14 +6,20 @@ import ru.netology.domain.Issue;
 import ru.netology.domain.IssueComparator;
 import ru.netology.repository.Repo;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ManagerTest {
     String bug = "bug";
     String blocked = "blocked";
+    String invalid = "invalid";
+    String assignee1 = "Петров";
+    String assignee2 = "Козлов";
+    String assignee3 = "Сутормин";
     Repo repo = new Repo();
     Manager manager = new Manager(repo);
     IssueComparator comparator = new IssueComparator();
@@ -31,16 +37,14 @@ class ManagerTest {
         repo.add(issue1);
         repo.add(issue4);
         repo.add(issue5);
+        repo.getAllIssueList(comparator);
     }
 
     @Test
     void getOpen() {
 
-        ArrayList<Issue> actual = manager.getOpen(repo.getAllIssueList());
-        ArrayList<Issue> expected = new ArrayList<>();
-        expected.add(issue1);
-        expected.add(issue2);
-        expected.add(issue3);
+        List<Issue> actual = manager.getOpen(repo.getAllIssueList(comparator));
+        List<Issue> expected = Arrays.asList(issue3, issue2, issue1);
 
         assertEquals(expected, actual);
 
@@ -48,31 +52,72 @@ class ManagerTest {
 
     @Test
     void getClose() {
-        ArrayList<Issue> actual = manager.getClose(repo.getAllIssueList());
-        ArrayList<Issue> expected = new ArrayList<>();
-        expected.add(issue5);
-        expected.add(issue4);
+        List<Issue> actual = manager.getClose(repo.getAllIssueList(comparator));
+        List<Issue> expected = Arrays.asList(issue5, issue4);
 
         assertEquals(expected, actual);
     }
 
     @Test
     void filterByAuthor() {
+        List<Issue> actual = manager.filterByAuthor("Иванов");
+        List<Issue> expected = Arrays.asList(issue4, issue1);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void addLabel() {
+        manager.addLabel(issue1, bug);
+        manager.addLabel(issue1, blocked);
+        //System.out.println(issue1);
+        assertTrue(issue1.getLabel().contains(bug));
     }
 
     @Test
     void filterByLabel() {
+
+        manager.addLabel(issue1, bug);
+        manager.addLabel(issue1, invalid);
+        manager.addLabel(issue5, invalid);
+
+        List<Issue> actual = manager.filterByLabel(invalid);
+        List<Issue> expected = Arrays.asList(issue5, issue1);
+
+        assertEquals(expected, actual);
     }
 
     @Test
     void filterByAssignee() {
+
+        manager.addAssignee(issue2, assignee1);
+        manager.addAssignee(issue2, assignee2);
+        manager.addAssignee(issue3, assignee2);
+        manager.addAssignee(issue3, assignee3);
+
+        List<Issue> actual = manager.filterByAssignee(assignee2);
+        List<Issue> expected = Arrays.asList(issue3, issue2);
+
+        assertEquals(expected, actual);
     }
 
     @Test
     void closeById() {
+        manager.closeById(1);
+
+        List<Issue> actual = manager.getClose(repo.getAllIssueList(comparator));
+        List<Issue> expected = Arrays.asList(issue5, issue4, issue1);
+
+        assertEquals(expected, actual);
     }
 
     @Test
     void openById() {
+        manager.openById(5);
+
+        List<Issue> actual = manager.getOpen(repo.getAllIssueList(comparator));
+        List<Issue> expected = Arrays.asList(issue5, issue3, issue2, issue1);
+
+        assertEquals(expected, actual);
     }
 }

@@ -33,15 +33,15 @@ public class Manager {
         return tmp;
     }
 
-    public List filterByAuthor(String author) {
+    public ArrayList filterByAuthor(String author) {
         return repo.filterByAuthor(author);
     }
 
-    public List filterByLabel(String label) {
+    public ArrayList filterByLabel(String label) {
         return repo.filterByLabel(label);
     }
 
-    public List filterByAssignee(String assignee) {
+    public ArrayList filterByAssignee(String assignee) {
         return repo.filterByAssignee(assignee);
     }
 

@@ -1,15 +1,18 @@
 package ru.netology.repository;
 
 import ru.netology.domain.Issue;
+import ru.netology.domain.IssueComparator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Repo {
 
     private List<Issue> issueList = new ArrayList<>();
 
-    public List<Issue> getAllIssueList() {
+    public List<Issue> getAllIssueList(IssueComparator comparator) {
+        Collections.sort(issueList, comparator);
         return issueList;
     }
 
@@ -26,8 +29,8 @@ public class Repo {
         return null;
     }
 
-    public List filterByAuthor(String author) {
-        List<Issue> result = new ArrayList<>();
+    public ArrayList filterByAuthor(String author) {
+        ArrayList<Issue> result = new ArrayList<>();
         for (Issue issue : issueList) {
             if (author.equals(issue.getAuthor())) {
                 result.add(issue);
@@ -36,8 +39,8 @@ public class Repo {
         return result;
     }
 
-    public List filterByLabel(String label) {
-        List<Issue> tmp = new ArrayList<>();
+    public ArrayList filterByLabel(String label) {
+        ArrayList<Issue> tmp = new ArrayList<>();
         for (Issue issue : issueList) {
             for (String s : issue.getLabel()) {
                 if (s.equals(label)) {
@@ -48,8 +51,8 @@ public class Repo {
         return tmp;
     }
 
-    public List filterByAssignee(String assignee) {
-        List<Issue> tmp = new ArrayList<>();
+    public ArrayList filterByAssignee(String assignee) {
+        ArrayList<Issue> tmp = new ArrayList<>();
         for (Issue issue : issueList) {
             for (String s : issue.getAssignee()) {
                 if (s.equals(assignee)) {
