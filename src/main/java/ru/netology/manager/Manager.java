@@ -1,15 +1,16 @@
 package ru.netology.manager;
 
 import ru.netology.domain.Issue;
+import ru.netology.repository.Repo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Manager {
-    private List<Issue> issueList = new ArrayList<>();
+    private Repo repo;
 
-    public List<Issue> getAllIssueList() {
-        return issueList;
+    public Manager(Repo repo) {
+        this.repo = repo;
     }
 
     public List getOpen(List<Issue> issueList) {
@@ -30,5 +31,31 @@ public class Manager {
             }
         }
         return tmp;
+    }
+
+    public List filterByAuthor(String author) {
+        return repo.filterByAuthor(author);
+    }
+
+    public List filterByLabel(String label) {
+        return repo.filterByLabel(label);
+    }
+
+    public List filterByAssignee(String assignee){
+        return repo.filterByAssignee(assignee);
+    }
+
+    void closeById(int id){
+        Issue tmp = repo.findById(id);
+        if (tmp.isOpen()){
+            tmp.setOpen(false);
+        }
+    }
+
+    void openById(int id){
+        Issue tmp = repo.findById(id);
+        if (!tmp.isOpen()){
+            tmp.setOpen(true);
+        }
     }
 }
