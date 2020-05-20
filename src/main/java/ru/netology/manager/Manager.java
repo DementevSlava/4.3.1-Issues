@@ -13,8 +13,8 @@ public class Manager {
         this.repo = repo;
     }
 
-    public List getOpen(List<Issue> issueList) {
-        List<Issue> tmp = new ArrayList<>();
+    public ArrayList getOpen(List<Issue> issueList) {
+        ArrayList<Issue> tmp = new ArrayList<>();
         for (Issue issue : issueList) {
             if (issue.isOpen()) {
                 tmp.add(issue);
@@ -23,8 +23,8 @@ public class Manager {
         return tmp;
     }
 
-    public List getClose(List<Issue> issueList) {
-        List<Issue> tmp = new ArrayList<>();
+    public ArrayList getClose(List<Issue> issueList) {
+        ArrayList<Issue> tmp = new ArrayList<>();
         for (Issue issue : issueList) {
             if (!issue.isOpen()) {
                 tmp.add(issue);
@@ -41,21 +41,29 @@ public class Manager {
         return repo.filterByLabel(label);
     }
 
-    public List filterByAssignee(String assignee){
+    public List filterByAssignee(String assignee) {
         return repo.filterByAssignee(assignee);
     }
 
-    void closeById(int id){
+    void closeById(int id) {
         Issue tmp = repo.findById(id);
-        if (tmp.isOpen()){
+        if (tmp.isOpen()) {
             tmp.setOpen(false);
         }
     }
 
-    void openById(int id){
+    void openById(int id) {
         Issue tmp = repo.findById(id);
-        if (!tmp.isOpen()){
+        if (!tmp.isOpen()) {
             tmp.setOpen(true);
         }
+    }
+
+    void addLabel(Issue issue, String label) {
+        issue.getLabel().add(label);
+    }
+
+    void addAssignee(Issue issue, String assignee) {
+        issue.getAssignee().add(assignee);
     }
 }

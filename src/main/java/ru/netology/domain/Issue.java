@@ -1,10 +1,8 @@
 package ru.netology.domain;
 
 import lombok.Data;
-import lombok.Getter;
 
 import java.util.HashSet;
-import java.util.Set;
 
 @Data
 public class Issue {
@@ -26,7 +24,7 @@ public class Issue {
 
     @Override
     public String toString() {
-        return  "id=" + id +
+        return "id=" + id +
                 ", name='" + name + '\'' +
                 ", author='" + author + '\'' +
                 ", label='" + label + '\'' +

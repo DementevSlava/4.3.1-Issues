@@ -7,11 +7,7 @@ import java.util.List;
 
 public class Repo {
 
-    private List<Issue> issueList;
-
-    public Repo(List<Issue> issueList) {
-        this.issueList = issueList;
-    }
+    private List<Issue> issueList = new ArrayList<>();
 
     public List<Issue> getAllIssueList() {
         return issueList;
@@ -21,9 +17,9 @@ public class Repo {
         return issueList.add(issue);
     }
 
-    public Issue findById(int id){
+    public Issue findById(int id) {
         for (Issue issue : issueList) {
-            if (issue.getId() == id){
+            if (issue.getId() == id) {
                 return issue;
             }
         }
