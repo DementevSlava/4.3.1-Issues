@@ -11,7 +11,7 @@ public class Issue {
     private String author;
     private HashSet<String> label;
     private HashSet<String> assignee;
-    boolean open;
+    private boolean open;
 
     public Issue(int id, String name, String author, HashSet<String> label, HashSet<String> assignee, boolean open) {
         this.id = id;
@@ -21,15 +21,4 @@ public class Issue {
         this.assignee = assignee;
         this.open = open;
     }
-
-    @Override
-    public String toString() {
-        return "id=" + id +
-                ", name='" + name + '\'' +
-                ", author='" + author + '\'' +
-                ", label='" + label + '\'' +
-                ", assignee='" + assignee + '\'' +
-                ", open=" + open;
-    }
-
 }
