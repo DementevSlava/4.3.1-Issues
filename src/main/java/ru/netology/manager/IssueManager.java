@@ -14,7 +14,7 @@ public class IssueManager {
         this.issueRepository = issueRepository;
     }
 
-    public List getAllOpen() {
+    public List<Issue> getAllOpen() {
         ArrayList<Issue> tmp = new ArrayList<>();
         List<Issue> issueList = issueRepository.getAllIssueList();
         for (Issue issue : issueList) {
@@ -25,7 +25,7 @@ public class IssueManager {
         return tmp;
     }
 
-    public List getALLClose() {
+    public List<Issue> getALLClose() {
         List<Issue> tmp = new ArrayList<>();
         List<Issue> issueList = issueRepository.getAllIssueList();
         for (Issue issue : issueList) {
@@ -36,7 +36,7 @@ public class IssueManager {
         return tmp;
     }
 
-    public List filterByAuthor(String author) {
+    public List<Issue> filterByAuthor(String author) {
         List<Issue> result = new ArrayList<>();
         List<Issue> issueList = issueRepository.getAllIssueList();
         Predicate<String> byAuthor = s -> s.equals(author);
@@ -48,12 +48,13 @@ public class IssueManager {
         return result;
     }
 
-    public List filterByLabel(String label) {
+    public List<Issue> filterByLabel(String label) {
         List<Issue> result = new ArrayList<>();
         List<Issue> issueList = issueRepository.getAllIssueList();
+        Predicate<String> byLabel = s -> s.equals(label);
         for (Issue issue : issueList) {
-            for (String s : issue.getLabel()) {
-                if (s.equals(label)) {
+            for (String value : issue.getLabel()) {
+                if (byLabel.test(value)) {
                     result.add(issue);
                 }
             }
@@ -61,12 +62,13 @@ public class IssueManager {
         return result;
     }
 
-    public List filterByAssignee(String assignee) {
+    public List<Issue> filterByAssignee(String assignee) {
         List<Issue> result = new ArrayList<>();
         List<Issue> issueList = issueRepository.getAllIssueList();
+        Predicate<String> byAssignee = s -> s.equals(assignee);
         for (Issue issue : issueList) {
-            for (String s : issue.getAssignee()) {
-                if (s.equals(assignee)) {
+            for (String value : issue.getAssignee()) {
+                if (byAssignee.test(value)) {
                     result.add(issue);
                 }
             }
